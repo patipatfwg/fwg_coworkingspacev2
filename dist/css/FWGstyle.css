@@ -1,0 +1,15 @@
+html {
+    background: #ffffff;
+    width: 100%;
+    height: 100%;
+    font-family: 'Raleway', sans-serif;
+}
+
+#driver-highlighted-element-stage{
+    display: none;
+}
+
+.container-fluid{
+    background: fixed;
+    /* background-color: #eee; */
+}
