@@ -59,17 +59,31 @@ function showBooking(seat)
           position: 'top',
         } 
       });
-
     });
     //
   });
+}
+
+function ToggleFormB()
+{
+  var ch = $('#InputStartAllDay').is(":checked");
+  if(ch==false)
+  {
+    $('#booking-form1').removeClass("invisible");
+    $('#booking-form2').removeClass("invisible");
+  }
+  else
+  {
+    $('#booking-form1').addClass("invisible");
+    $('#booking-form2').addClass("invisible");
+  }
 }
 
 function ToggleForm()
 {
   var booking_seat_id = $('#booking_seat_id').val();
   $('#BookingForm').html( BookingForm(booking_seat_id) );
-  $('#btn-booking-form').hide();
+  $('#btn-booking-form').hide();    
 }
 
 function titleForm(type,seat,booking_employee_date)
@@ -151,8 +165,21 @@ function BookingForm(tmp_seat)
   +"</div>"
   +"";
 
+
+  var allday = 'allday';
   r +=""
-  +"<div id='booking-form1' class='row mt-1' >"
+
+  +"<div id='booking-form11' class='row mt-1' >"
+  +"<div class='col-4'>"
+  +"<label>Start :</label>"
+  +"</div>"
+  +"<div class='col-4'>"
+  +"<input type='checkbox' class='form-control-sm' id='InputStartAllDay' onclick='ToggleFormB()' checked> Allday"
+  +"</div>"
+  +"<div class='col-4'></div>"
+  +"</div>"
+
+  +"<div id='booking-form1' class='row mt-1 invisible'>"
   +"<div class='col-4'>"
   +"<label>Start :</label>"
   +"</div>"
@@ -164,11 +191,22 @@ function BookingForm(tmp_seat)
   while(i<=23)
   {
     var ss = "";
-    if(Hour==i)
-    {
-      var ss = "selected='selected'";
-    }
-    r +="<option "+ss+" value='"+i+"'>"+i+"</option>";
+    // console.log( Hour+"<"+i +" && "+ date+"=="+FWGDate('today','int') );
+    // if(Hour<i)
+    // {
+      if(date==FWGDate('today','int'))
+      {
+        if(Hour==i)
+        {
+          var ss = "selected='selected'";
+        }
+        r +="<option "+ss+" value='"+i+"'>"+i+"</option>";        
+      }
+      else
+      {
+        r +="<option "+ss+" value='"+i+"'>"+i+"</option>";
+      }
+    // }
     i++; 
   }
   r +="</select>";
@@ -180,7 +218,7 @@ function BookingForm(tmp_seat)
   r +="</select>";
   r +="</div>";
   r +="</div>";
-  r +="<div id='booking-form2' class='row mt-1 mb-1'>";
+  r +="<div id='booking-form2' class='row mt-1 mb-1 invisible'>";
   r +="<div class='col-4'>";
   r +="<label>End :</label>";
   r +="</div>";
@@ -190,11 +228,18 @@ function BookingForm(tmp_seat)
   while(i<=23)
   {
     var ss = "";
-    if(Hour==i)
+    if(date==FWGDate('today','int'))
     {
-      var ss = "selected='selected'";
+      if(Hour==i)
+      {
+        var ss = "selected='selected'";
+      }
+      r +="<option "+ss+" value='"+i+"'>"+i+"</option>";        
     }
-    r +="<option "+ss+" value='"+i+"'>"+i+"</option>";
+    else
+    {
+      r +="<option "+ss+" value='"+i+"'>"+i+"</option>";
+    }
     i++;  
   }
   r +="</select>";
@@ -206,6 +251,7 @@ function BookingForm(tmp_seat)
   r +="</select>";
   r +="</div>";
   r +="</div>";
+
   r +="<div id='booking-form3' class='row'>";
   r +="<span id='btn-add-booking' class='form-control btn btn-warning' onclick='addBooking()'>Booking</span>";
   r +="<input type='hidden' id='seat_number' value='"+tmp_seat+"'>"
@@ -214,7 +260,7 @@ function BookingForm(tmp_seat)
   r +="</div>";
   r +="</div>";
   r +="</div>";
-
+  
   return r;
 }
 

@@ -163,7 +163,7 @@ if($_SERVER['REQUEST_METHOD'] === 'POST')
         $count = mysqli_num_rows($result);
         if($count>0)
         {
-            $sqlTime = " AND booking_employee_time_start = '06:00' AND booking_employee_time_end = '23:00'";
+            $sqlTime = " AND booking_employee_time_start = '09:00' AND booking_employee_time_end = '18:00'";
             $sql = $sql.$sqlTime;
             $result = $mysqli->query($sql);
             $count = mysqli_num_rows($result);

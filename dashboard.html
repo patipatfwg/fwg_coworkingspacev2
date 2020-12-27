@@ -35,7 +35,8 @@
                     <small class="text-info align-text-bottom"> updated at : 2020-12-25 12:30</small>
                 </div>
                 <div class="col-3 text-right" >
-                    <b>Date: </b><input type="text"  name="titleDatetime" id="titleDatetime">
+                    <b>Date: </b>
+                    <input type="text"  name="titleDatetime" id="titleDatetime">
                 </div>
             </div>
         </div>
@@ -101,12 +102,13 @@
 <footer>
   <!--  -->
   <script src="dist/js/jquery.min.js" type="text/javascript"></script>
+  <script src="dist/js/bootstrap.min.js" type="text/javascript"></script>
+  <script src="dist/js/driver.min.js" type="text/javascript"></script>
+  <script src="dist/js/moment.min.js" type="text/javascript"></script>
+  <script src="dist/js/lightpick.js" type="text/javascript"></script>
   <script src="dist/js/fwgDashboard.js" type="text/javascript"></script>
   <script src="dist/js/fwgBooking.js" type="text/javascript"></script>
-  <script src="dist/js/bootstrap.min.js"></script>
-  <script src="dist/js/driver.min.js"></script>
-  <script src="dist/js/moment.min.js"></script>
-  <script src="dist/js/lightpick.js"></script>
+  <script src="dist/js/fwgGlobal.js" type="text/javascript"></script>
   <script>
     $(document).ready(function(){
         if(localStorage.getItem("login_isActive")!=1)
@@ -118,11 +120,19 @@
             $("#navbar").load("navbar.html");
             var picker = new Lightpick({ 
                 field: document.getElementById('titleDatetime'),
-                singleDate: true,
-                format: "YYYY-MM-DD"
+                format: "YYYY-MM-DD",
+                // disableWeekends: true,
+                selectBackward: false
             });
+
+            $("#titleDatetime").val( FWGDate('today','int') );
             KickStartDashboard();
         }
+
+        $('.lightpick').click(function(){
+            displayDashboard();
+        });
+
     });
   </script>
   <!--  -->
