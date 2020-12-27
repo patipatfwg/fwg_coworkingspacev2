@@ -9,7 +9,6 @@ function KickStartDashboard()
     $("#InputDatetimeEnd").val(FWGDate(3,0)); 
     displayDashboard();
     // setInterval("getDashboardStatus()", 60000);
-
   }  
 }
 
@@ -31,6 +30,8 @@ function displayDashboard()
 
   showSeat('margin-top:0px; margin-left: 20px;','EA','E',1,24,5);
   showSeat('margin-top:-20px; margin-left: 10px;','EB','E',25,27,0);
+
+  $("#title-updated").html( "Updated at: "+FWGDate('today','updated') );
 }
 
 function showSeat(style,group,name,start,end,sub)

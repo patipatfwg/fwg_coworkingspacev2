@@ -42,6 +42,12 @@ function FWGDate(sw,subsw)
       // var datum = Date.parse(dateS);
       // var date = datum/1000;
     }
+    else if(subsw=='updated')
+    {
+        var month = (dt.getMonth()+1);
+        var time = dt.toLocaleTimeString();
+        var date = dt.getFullYear() + "-" +month+ "-" + dt.getDate() + " " + time ;
+    }
     
   }
   else if(sw==2)
