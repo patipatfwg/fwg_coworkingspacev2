@@ -23,25 +23,23 @@ function showBooking(seat)
       if(code==200)
       {
         description += "<div class='col'>";
-        console.log(msg);
+        // console.log(msg);
+        var seat_status = msg.seat_status;
         var list = msg.list;
-        // if(list.length>0)
-        // {
-          $.each( list, function( key, msg ) {
-            var first_name_en = msg.first_name_en;
-            var last_name_en = msg.last_name_en;
-            var booking_employee_time_start = msg.booking_employee_time_start;
-            var booking_employee_time_end = msg.booking_employee_time_end;
-            var booking_employee_id = msg.booking_employee_id;
-            description += BookingStatudCard(first_name_en,last_name_en,booking_employee_id,seat,booking_employee_time_start,booking_employee_time_end);
-          });
+        $.each( list, function( key, msg ) {
+          var first_name_en = msg.first_name_en;
+          var last_name_en = msg.last_name_en;
+          var booking_employee_time_start = msg.booking_employee_time_start;
+          var booking_employee_time_end = msg.booking_employee_time_end;
+          var booking_employee_id = msg.booking_employee_id;
+          description += BookingStatudCard(first_name_en,last_name_en,booking_employee_id,seat,booking_employee_time_start,booking_employee_time_end);
+        });
 
-          // if( booking_employee_time_start =='06:00' && booking_employee_time_end =='23:00' ){}
-          // else
-          // {
+        // if(seat_status!=2)
+        // {
           description += ToggleFormButton();
-          // }
         // }
+
         description +="</div>";
         description +="<div class='row' id='alert-booking-form'>";
         description +="</div>";
@@ -69,13 +67,13 @@ function ToggleFormB()
   var ch = $('#InputStartAllDay').is(":checked");
   if(ch==false)
   {
-    $('#booking-form1').removeClass("invisible");
-    $('#booking-form2').removeClass("invisible");
+    $('#booking-form1').removeClass("d-none");
+    $('#booking-form2').removeClass("d-none");
   }
   else
   {
-    $('#booking-form1').addClass("invisible");
-    $('#booking-form2').addClass("invisible");
+    $('#booking-form1').addClass("d-none");
+    $('#booking-form2').addClass("d-none");
   }
 }
 
@@ -83,7 +81,11 @@ function ToggleForm()
 {
   var booking_seat_id = $('#booking_seat_id').val();
   $('#BookingForm').html( BookingForm(booking_seat_id) );
-  $('#btn-booking-form').hide();    
+  $('#btn-booking-form').hide();
+  $('#booking-form-allday').hide();
+  $("#InputStartAllDay").prop( "checked", false );
+  $('#booking-form1').removeClass("d-none");
+  $('#booking-form2').removeClass("d-none");    
 }
 
 function titleForm(type,seat,booking_employee_date)
@@ -121,9 +123,10 @@ function BookingStatudCard(first_name_en,last_name_en,booking_employee_id,seat,b
 
   if(first_name_en==localStorage.getItem("firstname") && last_name_en==localStorage.getItem("lastname"))
   {
-    cancel_btn +="    <button class='btn btn-danger text-light mx-0 btn btn-sm' id='cancleBooking' onclick='cancelBooking()'><i class='fa fa-trash-o' aria-hidden='true'></i></button>";
-    cancel_btn +="<input type='hidden' id='booking_employee_id' value='"+booking_employee_id+"'>"
-    cancel_btn +="<input type='hidden' id='booking_seat_id' value='"+seat+"'>"
+    var a = "cancelBooking('"+booking_employee_id+"');";
+    cancel_btn +="    <button class='btn btn-danger text-light mx-0 btn btn-sm' id='cancleBooking' onclick="+a+" ><i class='fa fa-trash-o' aria-hidden='true'></i></button>";
+    // cancel_btn +="<input type='hidden' id='booking_employee_id' value='"+booking_employee_id+"'>"
+    cancel_btn +="<input type='hidden' id='booking_seat_id' value="+seat+">"
   }
   else
   {
@@ -166,10 +169,9 @@ function BookingForm(tmp_seat)
   +"";
 
 
-  var allday = 'allday';
   r +=""
 
-  +"<div id='booking-form11' class='row mt-1' >"
+  +"<div id='booking-form-allday' class='row mt-1' >"
   +"<div class='col-4'>"
   +"<label>Start :</label>"
   +"</div>"
@@ -179,7 +181,7 @@ function BookingForm(tmp_seat)
   +"<div class='col-4'></div>"
   +"</div>"
 
-  +"<div id='booking-form1' class='row mt-1 invisible'>"
+  +"<div id='booking-form1' class='row mt-1 d-none'>"
   +"<div class='col-4'>"
   +"<label>Start :</label>"
   +"</div>"
@@ -218,7 +220,7 @@ function BookingForm(tmp_seat)
   r +="</select>";
   r +="</div>";
   r +="</div>";
-  r +="<div id='booking-form2' class='row mt-1 mb-1 invisible'>";
+  r +="<div id='booking-form2' class='row mt-1 mb-1 d-none'>";
   r +="<div class='col-4'>";
   r +="<label>End :</label>";
   r +="</div>";
@@ -256,7 +258,7 @@ function BookingForm(tmp_seat)
   r +="<span id='btn-add-booking' class='form-control btn btn-warning' onclick='addBooking()'>Booking</span>";
   r +="<input type='hidden' id='seat_number' value='"+tmp_seat+"'>"
   r +="</div>";
-  r +="<div id='booking-form4' class='row'>";
+  r +="<div id='booking-form-res' class='row'>";
   r +="</div>";
   r +="</div>";
   r +="</div>";
@@ -273,15 +275,23 @@ function addBooking()
   {
     var tmp_seat = $('#seat_number').val();
     var booking_zone_id = tmp_seat.substring(0, 1);
-  
     var datestart = $("#Inputdate").val();
-    var hourstart = $("#InputHourStart").val();
-    var minstart = $("#InputMinStart").val();
-    var hourend = $("#InputHourEnd").val();
-    var minend = $("#InputMinEnd").val();
-    var timestart = hourstart+":"+minstart;
-    var timeend = hourend+":"+minend;  
-
+    var InputStartAllDay = $('#InputStartAllDay').is(":checked");
+    if(InputStartAllDay==false)
+    {
+      var hourstart = $("#InputHourStart").val();
+      var minstart = $("#InputMinStart").val();
+      var hourend = $("#InputHourEnd").val();
+      var minend = $("#InputMinEnd").val();
+      var timestart = hourstart+":"+minstart;
+      var timeend = hourend+":"+minend;      
+    }
+    else
+    {
+      var timestart = "09:00";
+      var timeend = "18:00";
+    }
+  
     var request = $.ajax({
       method: "POST",url: "api/create.php",
       data: { 
@@ -306,7 +316,9 @@ function addBooking()
       {
         console.log("Success: "+code);
         document.getElementById("booking-form0").innerHTML = "";
-        document.getElementById("booking-form1").innerHTML = "<b class='text-center'>Booking Success</b>";
+        document.getElementById("booking-form-allday").innerHTML = "";
+        document.getElementById("booking-form-res").innerHTML = "<b class='text-center'>Booking Success</b>";
+        document.getElementById("booking-form1").innerHTML = "";
         document.getElementById("booking-form2").innerHTML = "";
         document.getElementById("btn-add-booking").style.display = "none";
     
@@ -327,13 +339,15 @@ function addBooking()
   }
 }
 
-function cancelBooking()
+function cancelBooking(booking_employee_id)
 {
+  console.log(booking_seat_id);
   var proceed = confirm("Cancel Confirm?");
   if(proceed) 
   {
-    var booking_employee_id = $('#booking_employee_id').val();
+    // var booking_employee_id = $('#booking_employee_id').val();
     var booking_seat_id = $('#booking_seat_id').val();
+    // console.log(booking_employee_id+booking_seat_id);
     var request = $.ajax({
       method: "POST",url: "api/delete.php",
       data: { action:"cancel" , booking_employee_id:booking_employee_id , booking_seat_id:booking_seat_id }
@@ -354,4 +368,8 @@ function cancelBooking()
       }
     });
   }
+}
+
+function Hi(){
+  alert('g');
 }

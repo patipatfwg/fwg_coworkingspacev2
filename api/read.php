@@ -117,6 +117,7 @@ if($_SERVER['REQUEST_METHOD'] === 'POST')
         $count = mysqli_num_rows($result);
         if($count>0)
         {
+            $seat_status = 0;
             $code = 200;
             while($row = $result->fetch_array(MYSQLI_ASSOC))
             {
@@ -133,12 +134,26 @@ if($_SERVER['REQUEST_METHOD'] === 'POST')
                     "first_name_en"=>$first_name_en,
                     "last_name_en"=>$last_name_en
                 );
+
+                if($seat_status!=2)
+                {
+                    if($booking_employee_time_start=="09:00" && $booking_employee_time_end=="18:00" )
+                    {
+                        $seat_status = 2;
+                    }
+                    else
+                    {
+                        $seat_status = 1;
+                    }
+                }
+
             }
 
             $myArray = array(
                 "code"=>$code,
                 "message"=>"OK",
                 "booking_employee_date"=>$booking_employee_date,
+                "seat_status"=>$seat_status,
                 "list"=>$list
             );                 
         }
