@@ -88,6 +88,7 @@ function ToggleFormB()
 function ToggleForm()
 {
   var booking_seat_id = $('#booking_seat_id').val();
+
   $('#BookingForm').html( BookingForm(booking_seat_id) );
   $('#btn-booking-form').hide();
   $('#booking-form-allday').hide();
@@ -152,7 +153,7 @@ function BookingStatudCard(first_name_en,last_name_en,booking_employee_id,seat,b
   description +='</div>';
   description +='<hr>';
 
-  return   description;
+  return description;
 }
 
 function BookingForm(tmp_seat)
@@ -305,7 +306,7 @@ function CheckBooking(hourstart,minstart,hourend,minend,timestart,timeend)
   return flag; 
 }
 
-function addBooking()
+function addBooking(seat_number)
 {
   // document.getElementById("btn-add-booking").style.display = "none";
 
@@ -328,35 +329,36 @@ function addBooking()
   var flag = CheckBooking(hourstart,minstart,hourend,minend,timestart,timeend);
   if(flag==1)
   {
-    var proceed = confirm("Booking Confirm?");
+    var user_id = localStorage.getItem("user_id");
+        // var tmp_seat = $('#seat_number').val();
+    var tmp_seat = seat_number;
+    var booking_zone_id = tmp_seat.substring(0, 1);
+    var datestart = $("#Inputdate").val();
 
-        var tmp_seat = $('#seat_number').val();
-        var booking_zone_id = tmp_seat.substring(0, 1);
-        var datestart = $("#Inputdate").val();
+    var InputStartAllDay = $('#InputStartAllDay').is(":checked");
+    if(InputStartAllDay==false)
+    {
+      var hourstart = $("#InputHourStart").val();
+      var minstart = $("#InputMinStart").val();
+      var hourend = $("#InputHourEnd").val();
+      var minend = $("#InputMinEnd").val();
+      var timestart = hourstart+":"+minstart;
+      var timeend = hourend+":"+minend;      
+    }
+    else
+    {
+      var timestart = "09:00";
+      var timeend = "18:00";
+    }
 
-        var InputStartAllDay = $('#InputStartAllDay').is(":checked");
-        if(InputStartAllDay==false)
-        {
-          var hourstart = $("#InputHourStart").val();
-          var minstart = $("#InputMinStart").val();
-          var hourend = $("#InputHourEnd").val();
-          var minend = $("#InputMinEnd").val();
-          var timestart = hourstart+":"+minstart;
-          var timeend = hourend+":"+minend;      
-        }
-        else
-        {
-          var timestart = "09:00";
-          var timeend = "18:00";
-        }
-
+        var proceed = confirm("Booking Confirm?");
         if(proceed) 
         {
           var request = $.ajax({
             method: "POST",url: "api/create.php",
             data: { 
               action : "add",
-              user_id : localStorage.getItem("user_id"),
+              user_id : user_id,
               booking_employee_date : datestart,
               booking_employee_time_start : timestart,
               booking_employee_time_end : timeend,

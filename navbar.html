@@ -5,8 +5,11 @@
 	</button> -->
 	<div id="navbarCollapse" class="collapse navbar-collapse justify-content-start">
 		<div class="navbar-nav ml-auto">
-	  		<a href="#" class="nav-item nav-link active text-bold">Patipat Chanrungruang</a>
+	  		<a href="#" class="nav-item nav-link active text-bold" id="profilename"></a>
 	  		<a href="#" class="nav-item nav-link" onclick="checkLogout('click')"><i class="fa fa-sign-out"></i></a>
     	</div>		
 	</div>
 </nav>
+<script>
+	document.getElementById("profilename").innerHTML = localStorage.getItem("firstname")+" "+localStorage.getItem("lastname");
+</script>

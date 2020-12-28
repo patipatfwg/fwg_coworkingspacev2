@@ -1,15 +1,9 @@
 function KickStartDashboard()
 {
-  $checkLogout = checkLogout('timeout');
-  if($checkLogout==true)
-  {
-    // $("#titleDatetime").val( FWGDate('today','int') );
-    $("#DatetimeValue").val( FWGDate('today','timestamp') );
-    $("#InputDatetimeStart").val(FWGDate(2,0));
-    $("#InputDatetimeEnd").val(FWGDate(3,0)); 
-    displayDashboard();
-    // setInterval("getDashboardStatus()", 60000);
-  }  
+  $("#DatetimeValue").val( FWGDate('today','timestamp') );
+  $("#InputDatetimeStart").val(FWGDate(2,0));
+  $("#InputDatetimeEnd").val(FWGDate(3,0)); 
+  displayDashboard();
 }
 
 function displayDashboard()
@@ -20,9 +14,9 @@ function displayDashboard()
 
   showSeat('margin-top:1px; margin-left: 40px;','BA','B',1,20,5);
 
-  showSeat('margin-top 1px; margin-left: 35px;','CA','C',1,8,4);
-  showSeat('margin-top 1px; margin-left: 35px;','CB','C',9,22,15);
-  showSeat('margin-top 1px; margin-left: 80px;','CC','C',23,26,24);
+  showSeat('margin-top 1px; margin-left: 1px;','CA','C',1,8,4);
+  showSeat('margin-top 1px; margin-left: 30px;','CB','C',9,22,15);
+  showSeat('margin-top 1px; margin-left: 1px;','CC','C',23,26,24);
 
   showSeat('margin-top:0px; margin-left: 20px;','DA','D',1,20,5);
   showSeat('margin-top:-2px; margin-left: 10px;','DB','D',21,26,23);
