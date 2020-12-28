@@ -17,7 +17,7 @@ function displayDashboard()
   showSeat('margin-top:1px; margin-left: 18px;','AA','A',1,8,4);
   showSeat('margin-top:1px; margin-left: 40px;','AB','A',9,14,11);
   showSeatAC('AC','A',15,20,0);
-      
+
   showSeat('margin-top:1px; margin-left: 40px;','BA','B',1,20,5);
 
   showSeat('margin-top 1px; margin-left: 35px;','CA','C',1,8,4);
@@ -32,6 +32,7 @@ function displayDashboard()
   showSeat('margin-top:-20px; margin-left: 10px;','EB','E',25,27,0);
 
   $("#title-updated").html( "Updated at: "+FWGDate('today','updated') );
+
 }
 
 function showSeat(style,group,name,start,end,sub)
