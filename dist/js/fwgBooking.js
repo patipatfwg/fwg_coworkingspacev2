@@ -183,10 +183,10 @@ function BookingForm(tmp_seat)
   +"<div class='col-4'>"
   +"<label></label>"
   +"</div>"
-  +"<div class='col-4'>"
+  +"<div class='col-5'>"
   +"<input type='checkbox' class='form-control-sm' id='InputStartAllDay' onclick='ToggleFormB()' checked> All Day"
   +"</div>"
-  +"<div class='col-4'></div>"
+  +"<div class='col-3'></div>"
   +"</div>"
 
   +"<div id='booking-form1' class='row mt-1 d-none'>"
@@ -274,22 +274,26 @@ function BookingForm(tmp_seat)
   return r;
 }
 
-function CheckBooking(hourstart,minstart,hourend,minend)
+function CheckBooking(hourstart,minstart,hourend,minend,timestart,timeend)
 {
   var flag = 0;
-  var timestart = hourstart+":"+minstart;
-  var timeend = hourend+":"+minend;
 
-    // if(hourstart > hourend)
-    // {
-    //   // console.log('Wahat');
-    //   $('#booking-form-res').html("<span class='text-center text-danger'>ท่านกรอกช่วงเวลาไม่สัมพันธ์กัน กรุณากรอกใหม่</span>");
-    // }
+  var hourstart = parseInt(hourstart);
+  var hourend = parseInt(hourend);
+  var minstart = parseInt(minstart);
+  var minend = parseInt(minend);
 
-    if(hourstart <= hourend)
+    if(hourstart > hourend)
     {
+      console.log('Wahat');
+      $('#booking-form-res').html("<span class='text-center text-danger'>ท่านกรอกช่วงเวลาไม่สัมพันธ์กัน กรุณากรอกใหม่</span>");
+    }
+    else if(hourstart <= hourend)
+    {
+      console.log('Yes');
       if(timestart==timeend)
       {
+        alert(timestart==timeend);
         $('#booking-form-res').html("<span class='text-center text-danger'>ท่านกรอกช่วงเวลาไม่สัมพันธ์กัน กรุณากรอกใหม่</span>");
       }
       else
@@ -321,7 +325,7 @@ function addBooking()
     var timeend = "18:00";
   }
 
-  var flag = CheckBooking(hourstart,minstart,hourend,minend);
+  var flag = CheckBooking(hourstart,minstart,hourend,minend,timestart,timeend);
   if(flag==1)
   {
     var proceed = confirm("Booking Confirm?");
