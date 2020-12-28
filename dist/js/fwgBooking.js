@@ -283,14 +283,14 @@ function CheckBooking(hourstart,minstart,hourend,minend,timestart,timeend)
   var minstart = parseInt(minstart);
   var minend = parseInt(minend);
 
-    if(hourstart > hourend)
-    {
-      console.log('Wahat');
-      $('#booking-form-res').html("<span class='text-center text-danger'>ท่านกรอกช่วงเวลาไม่สัมพันธ์กัน กรุณากรอกใหม่</span>");
-    }
-    else if(hourstart <= hourend)
-    {
-      console.log('Yes');
+    // if(hourstart > hourend)
+    // {
+    //   console.log('Wahat');
+    //   $('#booking-form-res').html("<span class='text-center text-danger'>ท่านกรอกช่วงเวลาไม่สัมพันธ์กัน กรุณากรอกใหม่</span>");
+    // }
+    // else if(hourstart <= hourend)
+    // {
+      // console.log('Yes');
       if(timestart==timeend)
       {
         alert(timestart==timeend);
@@ -300,7 +300,7 @@ function CheckBooking(hourstart,minstart,hourend,minend,timestart,timeend)
       {
         flag = 1;
       }
-    }
+    // }
 
   return flag; 
 }
