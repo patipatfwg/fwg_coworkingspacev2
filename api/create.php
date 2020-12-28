@@ -36,39 +36,42 @@ if($_SERVER['REQUEST_METHOD'] === 'POST')
             $gettime = date("H:i");
             $getdate = date("Y-m-d");
 
-            //Check End : Start
+
             $sql_booking_employee_date = " AND booking_employee_date =  '$booking_employee_date'";
-            $sql_booking_employee_time_start = " AND booking_employee_time_end =  '$booking_employee_time_start'";
-            $sql = "SELECT * FROM booking_employee WHERE booking_seat_id = '$booking_seat_id'".$sql_booking_employee_date.$sql_booking_employee_time_start;
+            $sql_booking_employee_time_start = " AND booking_employee_time_start =  '$booking_employee_time_start'";
+            $sql_booking_employee_time_end = " AND booking_employee_time_end =  '$booking_employee_time_end'";
+
+            //Check Start and End
+            $sql = "SELECT * FROM booking_employee WHERE booking_seat_id = '$booking_seat_id'".$sql_booking_employee_date.$sql_booking_employee_time_start.$sql_booking_employee_time_end;
             $result = $mysqli->query($sql);
             $count = $result->num_rows;
-            if($count==1)
-            {
-                $sql_booking_employee_date = " AND booking_employee_date =  '$booking_employee_date'";
-                $sql_booking_employee_time_start = " AND booking_employee_time_start =  '$booking_employee_time_start'";
-                $sql_booking_employee_time_end = " AND booking_employee_time_end =  '$booking_employee_time_end'";
-
-                //Check Start
-                $sql = "SELECT * FROM booking_employee WHERE booking_seat_id = '$booking_seat_id'".$sql_booking_employee_date.$sql_booking_employee_time_start;
-                $result = $mysqli->query($sql);
-                $count = $result->num_rows;
-
-                //Check End
-                if($count==0)
-                {
-                    $sql = "SELECT * FROM booking_employee WHERE booking_seat_id = '$booking_seat_id'".$sql_booking_employee_date.$sql_booking_employee_time_end;
-                    $result = $mysqli->query($sql);
-                    $count = $result->num_rows;
-                } 
-
-            }
-            
             if($count==0)
             {
-                $sql_booking_employee_time_end = " AND booking_employee_time_end =  '$booking_employee_time_end'";
+                //Check Start => 0
+                $sql = "SELECT * FROM booking_employee WHERE booking_seat_id = '$booking_seat_id'".$sql_booking_employee_date.$sql_booking_employee_time_start;
+                $result = $mysqli->query($sql);
+                $countStart = $result->num_rows;
+
+                //Check End : Start => 1
+                $sql_booking_employee_date = " AND booking_employee_date =  '$booking_employee_date'";
+                $sql_booking_employee_time_end_start = " AND booking_employee_time_end =  '$booking_employee_time_start'";
+                $sql = "SELECT * FROM booking_employee WHERE booking_seat_id = '$booking_seat_id'".$sql_booking_employee_date.$sql_booking_employee_time_end_start;
+                $result = $mysqli->query($sql);
+                $countEndtoStart = $result->num_rows;
+
+                //Check End => 0
                 $sql = "SELECT * FROM booking_employee WHERE booking_seat_id = '$booking_seat_id'".$sql_booking_employee_date.$sql_booking_employee_time_end;
                 $result = $mysqli->query($sql);
-                $count = $result->num_rows;
+                $countEnd = $result->num_rows;
+
+                if($countStart==0 && $countEnd==0 && $countEndtoStart==1)
+                {
+                    $count==0;
+                }
+                else
+                {
+                    $count==1;
+                } 
             }
 
             $FLAG_CHECK = $count;

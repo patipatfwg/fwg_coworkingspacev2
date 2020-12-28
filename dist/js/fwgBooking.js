@@ -46,7 +46,15 @@ function showBooking(seat)
       }
       else if(code==404)
       {
-        description += BookingForm(seat);
+        // var datenow = FWGDate('today','int');
+        // if( datenow < booking_employee_date ){
+        //   console.log('<');
+        // }
+        // else if( datenow >= booking_employee_date )
+        // {
+        //   console.log('>=');
+          description += BookingForm(seat);
+        // }
       }
 
       driver.highlight({
@@ -316,8 +324,7 @@ function addBooking()
   if(flag==1)
   {
     var proceed = confirm("Booking Confirm?");
-    if(proceed) 
-    {
+
         var tmp_seat = $('#seat_number').val();
         var booking_zone_id = tmp_seat.substring(0, 1);
         var datestart = $("#Inputdate").val();
@@ -338,6 +345,8 @@ function addBooking()
           var timeend = "18:00";
         }
 
+        if(proceed) 
+        {
           var request = $.ajax({
             method: "POST",url: "api/create.php",
             data: { 
@@ -383,7 +392,7 @@ function addBooking()
             }
           });        
 
-    }  
+        }  
   }
   
 }
