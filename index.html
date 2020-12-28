@@ -12,7 +12,7 @@
   <script src="dist/js/jquery.min.js" type="text/javascript"></script>
   <script>
     $(document).ready(function(){
-            if(localStorage.getItem("login_isActive")!=1)
+            if(sessionStorage.getItem("login_isActive")!=1)
             {
               window.location.assign("login.html");
             }

@@ -129,7 +129,7 @@ function BookingStatudCard(first_name_en,last_name_en,booking_employee_id,seat,b
   var cancel_btn = '';
   var description ="";
 
-  if(first_name_en==localStorage.getItem("firstname") && last_name_en==localStorage.getItem("lastname"))
+  if(first_name_en==sessionStorage.getItem("firstname") && last_name_en==sessionStorage.getItem("lastname"))
   {
     var a = "cancelBooking('"+booking_employee_id+"');";
     cancel_btn +="    <button class='btn btn-danger text-light mx-0 btn btn-sm' id='cancleBooking' onclick="+a+" ><i class='fa fa-trash-o' aria-hidden='true'></i></button>";
@@ -351,7 +351,7 @@ function addBooking()
             method: "POST",url: "api/create.php",
             data: { 
               action : "add",
-              user_id : localStorage.getItem("user_id"),
+              user_id : sessionStorage.getItem("user_id"),
               booking_employee_date : datestart,
               booking_employee_time_start : timestart,
               booking_employee_time_end : timeend,
