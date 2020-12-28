@@ -278,10 +278,9 @@ function CheckBooking(hourstart,minstart,hourend,minend)
     // {
     //   $('#booking-form-res').html("<span class='text-center text-danger'>ท่านกรอกช่วงเวลาไม่สัมพันธ์กัน กรุณากรอกใหม่</span>");
     // }
-    
+
     if(timestart==timeend)
     {
-      alert(timestart+'=='+timeend);
       $('#booking-form-res').html("<span class='text-center text-danger'>ท่านกรอกช่วงเวลาไม่สัมพันธ์กัน กรุณากรอกใหม่</span>");
     }
     else
