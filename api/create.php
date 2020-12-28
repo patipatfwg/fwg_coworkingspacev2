@@ -35,15 +35,32 @@ if($_SERVER['REQUEST_METHOD'] === 'POST')
             date_default_timezone_set("Asia/Bangkok");
             $gettime = date("H:i");
             $getdate = date("Y-m-d");
-            // $sqlbe1 = " AND CAST(booking_employee_time_start as time) >= '$booking_employee_time_start' OR  CAST(booking_employee_time_start as time) < '$booking_employee_time_end'";
+
+            // $sql = "SELECT * FROM booking_employee WHERE booking_seat_id = '$booking_seat_id'".$sql_booking_employee_date.$sql_booking_employee_time_start;
+
+
             $sql_booking_employee_date = " AND booking_employee_date =  '$booking_employee_date'";
             $sql_booking_employee_time_start = " AND booking_employee_time_start =  '$booking_employee_time_start'";
             $sql_booking_employee_time_end = " AND booking_employee_time_end =  '$booking_employee_time_end'";
-            $sql = "SELECT * FROM booking_employee WHERE booking_seat_id = '$booking_seat_id'".$sql_booking_employee_date.$sql_booking_employee_time_start.$sql_booking_employee_time_end; 
-
-            // echo $sql;
+            
+            //Check Start
+            $sql = "SELECT * FROM booking_employee WHERE booking_seat_id = '$booking_seat_id'".$sql_booking_employee_date.$sql_booking_employee_time_start;
             $result = $mysqli->query($sql);
             $count = $result->num_rows;
+
+            //Check End
+            if($count==0)
+            {
+                $sql = "SELECT * FROM booking_employee WHERE booking_seat_id = '$booking_seat_id'".$sql_booking_employee_date.$sql_booking_employee_time_end;
+                $result = $mysqli->query($sql);
+                $count = $result->num_rows;
+            }
+
+
+
+
+
+
             $FLAG_CHECK = $count;
  
         }
