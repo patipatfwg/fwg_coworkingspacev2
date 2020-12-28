@@ -70,13 +70,13 @@ function checkLogout(type)
 {
   var dt = new Date();
   var time = dt.getHours();
-  var login_at = sessionStorage.getItem("login_at")+1;
+  var login_at = localStorage.getItem("login_at")+1;
 
   if(type=='timeout')
   {
     if(time>login_at)
     {
-      sessionStorage.clear();
+      localStorage.clear();
       window.location.assign("login.html");
       exit(0);
     }
@@ -87,7 +87,7 @@ function checkLogout(type)
   }
   else if(type=='click')
   {
-    sessionStorage.clear();
+    localStorage.clear();
     window.location.assign("login.html");
   }
 }
