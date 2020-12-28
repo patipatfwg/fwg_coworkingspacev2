@@ -272,20 +272,21 @@ function CheckBooking(hourstart,minstart,hourend,minend)
   var timestart = hourstart+":"+minstart;
   var timeend = hourend+":"+minend;
 
-  // alert(hourstart+'>'+hourstart);
-  console.log(hourstart>hourend);
-    // if( (hourstart>hourend)==true )
-    // {
-    //   $('#booking-form-res').html("<span class='text-center text-danger'>ท่านกรอกช่วงเวลาไม่สัมพันธ์กัน กรุณากรอกใหม่</span>");
-    // }
-
-    if(timestart==timeend)
+    if(hourstart > hourend)
     {
+      // console.log('Wahat');
       $('#booking-form-res').html("<span class='text-center text-danger'>ท่านกรอกช่วงเวลาไม่สัมพันธ์กัน กรุณากรอกใหม่</span>");
     }
-    else
+    else if(hourstart <= hourend)
     {
-      flag = 1;
+      if(timestart==timeend)
+      {
+        $('#booking-form-res').html("<span class='text-center text-danger'>ท่านกรอกช่วงเวลาไม่สัมพันธ์กัน กรุณากรอกใหม่</span>");
+      }
+      else
+      {
+        flag = 1;
+      }
     }
 
   return flag; 
