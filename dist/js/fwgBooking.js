@@ -266,99 +266,136 @@ function BookingForm(tmp_seat)
   return r;
 }
 
+function CheckBooking(hourstart,minstart,hourend,minend)
+{
+  var flag = 0;
+  var timestart = hourstart+":"+minstart;
+  var timeend = hourend+":"+minend;
+
+  // alert(hourstart+'>'+hourstart);
+  console.log(hourstart>hourend);
+    // if( (hourstart>hourend)==true )
+    // {
+    //   $('#booking-form-res').html("<span class='text-center text-danger'>ท่านกรอกช่วงเวลาไม่สัมพันธ์กัน กรุณากรอกใหม่</span>");
+    // }
+    
+    if(timestart==timeend)
+    {
+      alert(timestart+'=='+timeend);
+      $('#booking-form-res').html("<span class='text-center text-danger'>ท่านกรอกช่วงเวลาไม่สัมพันธ์กัน กรุณากรอกใหม่</span>");
+    }
+    else
+    {
+      flag = 1;
+    }
+
+  return flag; 
+}
+
 function addBooking()
 {
   // document.getElementById("btn-add-booking").style.display = "none";
 
-  var hourstart = $("#InputHourStart").val();
-  var hourend = $("#InputHourEnd").val();
-
-  if(hourend<hourstart)
+  var InputStartAllDay = $('#InputStartAllDay').is(":checked");
+  if(InputStartAllDay==false)
   {
-    $('#booking-form-res').html("<span class='text-center text-danger'>ท่านกรอกชั่วโมงผิด กรุณากรอกใหม่</span>");
+    var hourstart = $("#InputHourStart").val();
+    var minstart = $("#InputMinStart").val();
+    var hourend = $("#InputHourEnd").val();
+    var minend = $("#InputMinEnd").val();
+    var timestart = hourstart+":"+minstart;
+    var timeend = hourend+":"+minend;      
   }
   else
+  {
+    var timestart = "09:00";
+    var timeend = "18:00";
+  }
+
+  var flag = CheckBooking(hourstart,minstart,hourend,minend);
+  if(flag==1)
   {
     var proceed = confirm("Booking Confirm?");
     if(proceed) 
     {
-      var tmp_seat = $('#seat_number').val();
-      var booking_zone_id = tmp_seat.substring(0, 1);
-      var datestart = $("#Inputdate").val();
-      var InputStartAllDay = $('#InputStartAllDay').is(":checked");
-      if(InputStartAllDay==false)
-      {
-        // var hourstart = $("#InputHourStart").val();
-        var minstart = $("#InputMinStart").val();
-        // var hourend = $("#InputHourEnd").val();
-        var minend = $("#InputMinEnd").val();
-        var timestart = hourstart+":"+minstart;
-        var timeend = hourend+":"+minend;      
-      }
-      else
-      {
-        var timestart = "09:00";
-        var timeend = "18:00";
-      }
-    
-      var request = $.ajax({
-        method: "POST",url: "api/create.php",
-        data: { 
-          action : "add",
-          user_id : localStorage.getItem("user_id"),
-          booking_employee_date : datestart,
-          booking_employee_time_start : timestart,
-          booking_employee_time_end : timeend,
-          booking_type_id : 1,
-          booking_room_id : 0,
-          booking_zone_id : booking_zone_id,
-          booking_seat_id : tmp_seat
-        }
-      });
-      request.fail(function (jqXHR, textStatus) {
-        //504
-        $("#msgbox").html("Please Check Internet");
-      });
-      request.done(function(msg) {
-        var code = msg.code;
-        if(code==200)
+        var tmp_seat = $('#seat_number').val();
+        var booking_zone_id = tmp_seat.substring(0, 1);
+        var datestart = $("#Inputdate").val();
+
+        var InputStartAllDay = $('#InputStartAllDay').is(":checked");
+        if(InputStartAllDay==false)
         {
-          console.log("Success: "+code);
-          document.getElementById("booking-form0").innerHTML = "";
-          document.getElementById("booking-form-allday").innerHTML = "";
-          document.getElementById("booking-form-res").innerHTML = "<b class='text-center'>Booking Success</b>";
-          document.getElementById("booking-form1").innerHTML = "";
-          document.getElementById("booking-form2").innerHTML = "";
-          document.getElementById("btn-add-booking").style.display = "none";
-      
-          setTimeout(() => {
-            location.reload();
-          }, 1000);
+          var hourstart = $("#InputHourStart").val();
+          var minstart = $("#InputMinStart").val();
+          var hourend = $("#InputHourEnd").val();
+          var minend = $("#InputMinEnd").val();
+          var timestart = hourstart+":"+minstart;
+          var timeend = hourend+":"+minend;      
+        }
+        else
+        {
+          var timestart = "09:00";
+          var timeend = "18:00";
+        }
+
+          var request = $.ajax({
+            method: "POST",url: "api/create.php",
+            data: { 
+              action : "add",
+              user_id : localStorage.getItem("user_id"),
+              booking_employee_date : datestart,
+              booking_employee_time_start : timestart,
+              booking_employee_time_end : timeend,
+              booking_type_id : 1,
+              booking_room_id : 0,
+              booking_zone_id : booking_zone_id,
+              booking_seat_id : tmp_seat
+            }
+          });
+          request.fail(function (jqXHR, textStatus) {
+            //504
+            $("#msgbox").html("Please Check Internet");
+          });
+          request.done(function(msg) {
+            var code = msg.code;
+            if(code==200)
+            {
+              console.log("Success: "+code);
+              document.getElementById("booking-form0").innerHTML = "";
+              document.getElementById("booking-form-allday").innerHTML = "";
+              document.getElementById("booking-form-res").innerHTML = "<b class='text-center'>Booking Success</b>";
+              document.getElementById("booking-form1").innerHTML = "";
+              document.getElementById("booking-form2").innerHTML = "";
+              document.getElementById("btn-add-booking").style.display = "none";
           
-        }
-        else if(code==404)
-        {
-          alert('404');
-        }
-        else if(code==500)
-        {
-          $('#booking-form-res').html("<span class='text-center text-danger'>ถูกจองไปแล้ว กรุณาจองช่วงเวลาใหม่</span>");
-        }
-      });
-    }    
+              setTimeout(() => {
+                location.reload();
+              }, 1000);
+              
+            }
+            else if(code==404)
+            {
+              alert('404');
+            }
+            else if(code==500)
+            {
+              $('#booking-form-res').html("<span class='text-center text-danger'>ถูกจองไปแล้ว กรุณาจองช่วงเวลาใหม่</span>");
+            }
+          });        
+
+    }  
   }
-
-
+  
 }
 
 function cancelBooking(booking_employee_id)
 {
-  console.log(booking_seat_id);
   var proceed = confirm("Cancel Confirm?");
   if(proceed) 
   {
     // var booking_employee_id = $('#booking_employee_id').val();
     var booking_seat_id = $('#booking_seat_id').val();
+    console.log(booking_seat_id);
     // console.log(booking_employee_id+booking_seat_id);
     var request = $.ajax({
       method: "POST",url: "api/delete.php",
