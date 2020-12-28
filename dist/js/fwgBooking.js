@@ -181,7 +181,7 @@ function BookingForm(tmp_seat)
 
   +"<div id='booking-form-allday' class='row mt-1' >"
   +"<div class='col-4'>"
-  +"<label>Start :</label>"
+  +"<label></label>"
   +"</div>"
   +"<div class='col-4'>"
   +"<input type='checkbox' class='form-control-sm' id='InputStartAllDay' onclick='ToggleFormB()' checked> Allday"
