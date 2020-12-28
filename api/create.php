@@ -47,7 +47,7 @@ if($_SERVER['REQUEST_METHOD'] === 'POST')
                 $sql_booking_employee_date = " AND booking_employee_date =  '$booking_employee_date'";
                 $sql_booking_employee_time_start = " AND booking_employee_time_start =  '$booking_employee_time_start'";
                 $sql_booking_employee_time_end = " AND booking_employee_time_end =  '$booking_employee_time_end'";
-                
+
                 //Check Start
                 $sql = "SELECT * FROM booking_employee WHERE booking_seat_id = '$booking_seat_id'".$sql_booking_employee_date.$sql_booking_employee_time_start;
                 $result = $mysqli->query($sql);
@@ -60,11 +60,19 @@ if($_SERVER['REQUEST_METHOD'] === 'POST')
                     $result = $mysqli->query($sql);
                     $count = $result->num_rows;
                 } 
-                
+
+            }
+            
+            if($count==0)
+            {
+                $sql_booking_employee_time_end = " AND booking_employee_time_end =  '$booking_employee_time_end'";
+                $sql = "SELECT * FROM booking_employee WHERE booking_seat_id = '$booking_seat_id'".$sql_booking_employee_date.$sql_booking_employee_time_end;
+                $result = $mysqli->query($sql);
+                $count = $result->num_rows;
             }
 
             $FLAG_CHECK = $count;
- 
+
         }
 
         if($FLAG_CHECK==0)
