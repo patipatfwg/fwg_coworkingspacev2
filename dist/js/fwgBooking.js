@@ -371,21 +371,24 @@ function addBooking()
             $("#msgbox").html("Please Check Internet");
           });
           request.done(function(msg) {
+
             var code = msg.code;
             if(code==200)
             {
-              console.log("Success: "+code);
-              document.getElementById("booking-form0").innerHTML = "";
-              document.getElementById("booking-form-allday").innerHTML = "";
-              document.getElementById("booking-form-res").innerHTML = "<b class='text-center'>Booking Success</b>";
-              document.getElementById("booking-form1").innerHTML = "";
-              document.getElementById("booking-form2").innerHTML = "";
-              document.getElementById("btn-add-booking").style.display = "none";
-          
-              setTimeout(() => {
-                location.reload();
-              }, 1000);
-              
+              if(proceed) 
+              {
+                console.log("Success: "+code);
+                document.getElementById("booking-form0").innerHTML = "";
+                document.getElementById("booking-form-allday").innerHTML = "";
+                document.getElementById("booking-form-res").innerHTML = "<b class='text-center'>Booking Success</b>";
+                document.getElementById("booking-form1").innerHTML = "";
+                document.getElementById("booking-form2").innerHTML = "";
+                document.getElementById("btn-add-booking").style.display = "none";
+            
+                setTimeout(() => {
+                  location.reload();
+                }, 1000);
+              }
             }
             else if(code==404)
             {
@@ -395,6 +398,7 @@ function addBooking()
             {
               $('#booking-form-res').html("<span class='text-center text-danger'>ถูกจองไปแล้ว กรุณาจองช่วงเวลาใหม่</span>");
             }
+            
           });        
 
         }  
