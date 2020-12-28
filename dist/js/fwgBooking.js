@@ -280,12 +280,13 @@ function CheckBooking(hourstart,minstart,hourend,minend)
   var timestart = hourstart+":"+minstart;
   var timeend = hourend+":"+minend;
 
-    if(hourstart > hourend)
-    {
-      // console.log('Wahat');
-      $('#booking-form-res').html("<span class='text-center text-danger'>ท่านกรอกช่วงเวลาไม่สัมพันธ์กัน กรุณากรอกใหม่</span>");
-    }
-    else if(hourstart <= hourend)
+    // if(hourstart > hourend)
+    // {
+    //   // console.log('Wahat');
+    //   $('#booking-form-res').html("<span class='text-center text-danger'>ท่านกรอกช่วงเวลาไม่สัมพันธ์กัน กรุณากรอกใหม่</span>");
+    // }
+
+    if(hourstart <= hourend)
     {
       if(timestart==timeend)
       {
