@@ -22,11 +22,11 @@ function displayDashboard()
 
   showSeat('margin-top 1px; margin-left: 35px;','CA','C',1,8,4);
   showSeat('margin-top 1px; margin-left: 35px;','CB','C',9,22,15);
-  showSeat('margin-top 1px; margin-left: 35px;','CC','C',23,26,24);
+  showSeat('margin-top 1px; margin-left: 80px;','CC','C',23,26,24);
 
   showSeat('margin-top:0px; margin-left: 20px;','DA','D',1,20,5);
   showSeat('margin-top:-2px; margin-left: 10px;','DB','D',21,26,23);
-  showSeat('margin-top:1px; margin-left: 1px;','DC','D',27,34,30);
+  showSeat('margin-top:1px; margin-left: -10px;','DC','D',27,36,31);
 
   showSeat('margin-top:0px; margin-left: 20px;','EA','E',1,24,5);
   showSeat('margin-top:-20px; margin-left: 10px;','EB','E',25,27,0);
